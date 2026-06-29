@@ -55,7 +55,7 @@ Follow these steps to set up the project locally:
      ```sql
      CREATE DATABASE employee_management_sys;
      ```
-   - If your MySQL username or password is not `root` and `loyalsam` respectively, update the `DATABASES` configuration in `backend/settings.py` to match your local MySQL setup.
+   - Use your MySQL username or password, update the `DATABASES` configuration in `backend/settings.py` to match your local MySQL setup.
 
 5. **Run Migrations:**
    Apply the database migrations to create the necessary tables.
@@ -119,7 +119,3 @@ Contributions are welcome! If you'd like to improve the project, please follow t
 3. Commit your changes (`git commit -m 'Add some feature'`).
 4. Push to the branch (`git push origin feature/YourFeatureName`).
 5. Open a Pull Request.
-
-## License
-
-This project is open-source and available under the [MIT License](LICENSE).
