@@ -1,0 +1,37 @@
+{% extends 'employees/base.html' %}
+{% block content %}
+<h2>Employee List</h2>
+
+<form method="GET" style="flex-direction: row; max-width: 100%; margin-bottom: 20px; align-items: center;">
+    <input type="text" name="q" placeholder="Search by name or department..." value="{{ request.GET.q }}" style="flex: 1; max-width: 400px;">
+    <button type="submit" class="btn">Search</button>
+    {% if request.GET.q %}
+        <a href="{% url 'employee_list' %}" class="btn btn-secondary">Clear</a>
+    {% endif %}
+</form>
+
+<table>
+    <tr>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Department</th>
+        <th>Salary</th>
+        <th>Actions</th>
+    </tr>
+
+    {% for employee in employees %}
+    <tr>
+        <td>{{ employee.name }}</td>
+        <td>{{ employee.email }}</td>
+        <td>{{ employee.department }}</td>
+        <td>{{ employee.salary }}</td>
+        <td class="actions">
+            <a href="{% url 'employee_detail' employee.id %}" class="btn btn-small btn-secondary">View</a>
+            <a href="{% url 'employee_update' employee.id %}" class="btn btn-small">Edit</a>
+            <a href="{% url 'employee_delete' employee.id %}" class="btn btn-small btn-danger">Delete</a>
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+
+{% endblock %}
