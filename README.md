@@ -2,6 +2,8 @@
 
 A straightforward Employee Management System built with **Django** and **MySQL**. This application provides an easy-to-use interface to manage employee records, including their details, department, and salary information.
 
+Live Link : https://employee-management-system-3gkr.onrender.com
+
 ## Features
 
 - **User Authentication:** Secure login and logout functionality to protect employee records.
