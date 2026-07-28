@@ -1,0 +1,41 @@
+# Python / Django
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual Environments
+venv/
+env/
+ENV/
+env.bak/
+venv.bak/
+
+# Environment Variables
+.env
+.venv
+
+# Database
+db.sqlite3
+db.sqlite3-journal
+
+# Log files
+*.log
+logs/
+
+# Django local settings
+local_settings.py
+
+# IDE / Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS Generated
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
