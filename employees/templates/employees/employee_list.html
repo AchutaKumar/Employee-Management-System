@@ -105,7 +105,7 @@
                 </tr>
             </thead>
             <tbody class="divide-y divide-gray-100">
-                {% for employee in employees %}
+                {% for employee in page_obj %}
                 <tr class="hover:bg-blue-50/40 transition-colors duration-150 group">
                     <td class="p-4">
                         <div class="flex items-center gap-3">
@@ -172,22 +172,44 @@
         </table>
     </div>
 
-    <!-- Table Pagination Footer -->
-    <div class="p-4 border-t border-gray-200 flex items-center justify-between bg-gray-50 text-xs text-gray-500">
-        <p>Showing 1 to {{ results_count }} of {{ total_employees }} employees</p>
+    <!-- Dynamic Pagination Footer -->
+    <div class="p-4 border-t border-gray-200 flex flex-wrap items-center justify-between bg-gray-50 text-xs text-gray-500 gap-4">
+        <p>Showing <strong>{{ page_obj.start_index }}</strong> to <strong>{{ page_obj.end_index }}</strong> of <strong>{{ results_count }}</strong> employees</p>
+
+        {% if page_obj.paginator.num_pages > 1 %}
         <div class="flex items-center gap-1">
-            <button disabled class="w-8 h-8 flex items-center justify-center border border-gray-200 rounded-lg text-gray-400 bg-white">
-                <span class="material-symbols-outlined text-[18px]">chevron_left</span>
-            </button>
-            <button class="w-8 h-8 flex items-center justify-center bg-secondary text-white font-bold rounded-lg">1</button>
-            <button class="w-8 h-8 flex items-center justify-center border border-gray-200 rounded-lg text-gray-600 bg-white hover:bg-gray-100">2</button>
-            <button class="w-8 h-8 flex items-center justify-center border border-gray-200 rounded-lg text-gray-600 bg-white hover:bg-gray-100">3</button>
-            <span class="px-1 text-gray-400">...</span>
-            <button class="w-8 h-8 flex items-center justify-center border border-gray-200 rounded-lg text-gray-600 bg-white hover:bg-gray-100">257</button>
-            <button class="w-8 h-8 flex items-center justify-center border border-gray-200 rounded-lg text-gray-600 bg-white hover:bg-gray-100">
-                <span class="material-symbols-outlined text-[18px]">chevron_right</span>
-            </button>
+            <!-- Previous Page Button -->
+            {% if page_obj.has_previous %}
+                <a href="?page={{ page_obj.previous_page_number }}&q={{ query }}&department={{ selected_dept }}&status={{ selected_status }}" class="w-8 h-8 flex items-center justify-center border border-gray-200 rounded-lg text-gray-600 bg-white hover:bg-gray-100 transition-all">
+                    <span class="material-symbols-outlined text-[18px]">chevron_left</span>
+                </a>
+            {% else %}
+                <button disabled class="w-8 h-8 flex items-center justify-center border border-gray-200 rounded-lg text-gray-300 bg-gray-50 cursor-not-allowed">
+                    <span class="material-symbols-outlined text-[18px]">chevron_left</span>
+                </button>
+            {% endif %}
+
+            <!-- Page Number Links -->
+            {% for p in page_obj.paginator.page_range %}
+                {% if p == page_obj.number %}
+                    <span class="w-8 h-8 flex items-center justify-center bg-secondary text-white font-bold rounded-lg shadow-sm">{{ p }}</span>
+                {% else %}
+                    <a href="?page={{ p }}&q={{ query }}&department={{ selected_dept }}&status={{ selected_status }}" class="w-8 h-8 flex items-center justify-center border border-gray-200 rounded-lg text-gray-600 bg-white hover:bg-gray-100 transition-all font-medium">{{ p }}</a>
+                {% endif %}
+            {% endfor %}
+
+            <!-- Next Page Button -->
+            {% if page_obj.has_next %}
+                <a href="?page={{ page_obj.next_page_number }}&q={{ query }}&department={{ selected_dept }}&status={{ selected_status }}" class="w-8 h-8 flex items-center justify-center border border-gray-200 rounded-lg text-gray-600 bg-white hover:bg-gray-100 transition-all">
+                    <span class="material-symbols-outlined text-[18px]">chevron_right</span>
+                </a>
+            {% else %}
+                <button disabled class="w-8 h-8 flex items-center justify-center border border-gray-200 rounded-lg text-gray-300 bg-gray-50 cursor-not-allowed">
+                    <span class="material-symbols-outlined text-[18px]">chevron_right</span>
+                </button>
+            {% endif %}
         </div>
+        {% endif %}
     </div>
 </div>
 {% endblock %}

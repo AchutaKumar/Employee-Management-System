@@ -3,6 +3,7 @@ from django.db.models import Q, Avg, Count
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login, logout
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from datetime import date, timedelta
 from .models import Employee
 from .forms import EmployeeForm, CustomLoginForm, CustomUserCreationForm
@@ -67,14 +68,28 @@ def employee_list(request):
     total_employees = Employee.objects.count()
     departments_list = Employee.objects.values_list('department', flat=True).distinct()
     
-    # New hires in last 365 days or recent 10
+    # New hires in last 365 days or recent 12
     one_year_ago = date.today() - timedelta(days=365)
     new_hires_count = Employee.objects.filter(joining_date__gte=one_year_ago).count()
     if new_hires_count == 0:
         new_hires_count = min(total_employees, 12)
 
+    # Django Pagination (5 items per page)
+    per_page = 5
+    paginator = Paginator(employees, per_page)
+    page_number = request.GET.get('page', 1)
+
+    try:
+        page_obj = paginator.page(page_number)
+    except PageNotAnInteger:
+        page_obj = paginator.page(1)
+    except EmptyPage:
+        page_obj = paginator.page(paginator.num_pages)
+
     context = {
-        'employees': employees,
+        'page_obj': page_obj,
+        'employees': page_obj.object_list,
+        'paginator': paginator,
         'query': query,
         'selected_dept': selected_dept,
         'selected_status': selected_status,
