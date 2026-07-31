@@ -71,8 +71,17 @@
                 <option value="Remote" {% if selected_status == 'Remote' %}selected{% endif %}>Remote</option>
             </select>
 
-            {% if selected_dept or selected_status or query %}
-                <a href="{% url 'employee_list' %}" class="text-xs text-secondary hover:underline font-semibold ml-1">Clear Filters</a>
+            {% if has_active_session_filter %}
+                <div class="flex items-center gap-2">
+                    <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] font-semibold bg-blue-50 text-blue-700 border border-blue-200">
+                        <span class="w-1.5 h-1.5 rounded-full bg-blue-600 animate-pulse"></span>
+                        Session Saved
+                    </span>
+                    <a href="{% url 'employee_list' %}?reset=true" class="text-xs text-secondary hover:underline font-semibold ml-1 flex items-center gap-0.5" title="Reset saved filter session state">
+                        <span class="material-symbols-outlined text-[14px]">restart_alt</span>
+                        Reset Filters
+                    </a>
+                </div>
             {% endif %}
         </div>
     </form>
